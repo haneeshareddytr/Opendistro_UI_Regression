@@ -1,0 +1,45 @@
+package sample.c;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import sample.c.Opendistrokb;
+import utilities.Browserpagee;
+import utilities.ExtentReportUtil;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+
+
+public class Five extends Browserpagee {
+	
+	Opendistrokb Opendistrokb;
+	Rolepagenew Rolepagenew;
+	public static ExtentTest extentLogger;
+	@BeforeMethod
+	public void kibanaPage()
+	{
+		Opendistrokb=new Opendistrokb(driver);
+		WebElement username = driver.findElement(By.name("username"));
+		WebElement password = driver.findElement(By.name("password"));
+		WebElement login = driver.findElement(By.xpath("//button[@type=\"submit\"]"));
+
+		username.sendKeys("admin");
+		password.sendKeys("admin");
+		login.click();
+		Opendistrokb.clickSecurity();
+	}
+
+	@Test
+	public void createroles() throws InterruptedException
+	{
+		extentLogger =ExtentReportUtil.getTest();
+		Opendistrokb.clickRoles();
+		extentLogger.log(LogStatus.INFO, "clicking roles tab in tr-security");
+		Rolepagenew = new Rolepagenew(driver);
+		Rolepagenew.createNewRoleWithPermission3("six", "GET",".opendistro_security","GET");
+		//driver.navigate().refresh();
+		//Rolepagenew.isRoleExists("newrole35");
+		//driver.navigate().refresh();
+	}
+}
